@@ -1,8 +1,11 @@
 import React from 'react';
+import PageHeader from '../../Components/PageHeader';
 
 function TeacherForm(){
     return(
-        <h1>TeachersForms</h1>
+        <div id="page-teacher-form" className="container">
+        <PageHeader title="Que incrivel que você quer dar aulas"/>
+    </div>
     )
 }
 
