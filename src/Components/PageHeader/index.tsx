@@ -2,10 +2,12 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import logoImg from '../../Assets/images/logo.svg';
 import backIcon from '../../Assets/images/icons/back.svg';
+import './styles.css';
 
 interface PageHeaderProps{
     title:string;
 }
+
 
 const PageHeader:React.FC<PageHeaderProps> = (props) => {
     return(
@@ -19,9 +21,12 @@ const PageHeader:React.FC<PageHeaderProps> = (props) => {
 
                 <div className="header-content">
                     <strong>{props.title}</strong>
-            </div>
+                    {props.children}
 
-            {props.children}           
+            </div>
+             
+          
+                       
     </header>
     );
 }
