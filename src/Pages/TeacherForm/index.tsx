@@ -1,12 +1,15 @@
 import React,{useState, FormEvent} from 'react';
+import {useHistory} from 'react-router-dom';
 import PageHeader from '../../Components/PageHeader';
 import './styles.css';
 import Input from '../../Components/Input';
 import warningIcon from '../..//Assets/images/icons/warning.svg'
 import Textarea from '../../Components/Textarea';
 import Select from '../../Components/Select';
+import api from '../../Services/api';
 
 function TeacherForm(){
+    const history = useHistory();
     const [name,setName] = useState('');
     const [avatar,setAvatar] = useState('')
     const [bio,setBio] = useState('');
@@ -22,14 +25,21 @@ function TeacherForm(){
     function handleCreateClass(e:FormEvent){
         e.preventDefault();
 
-        console.log({
-            name,
-            avatar,
-            whatsapp,
-            bio,
-            subject,
-            cost
-    })
+        api.post('classes',{
+             name,
+             avatar,
+             whatsapp,
+             bio,
+             subject,
+             cost:Number(cost),
+             schedule:scheduleItems
+        }).then(()=>{
+            alert('Cadastro realizado com sucesso')
+            history.push('/')
+        }).catch(() => {
+            alert('Erro no cadastro')
+        })
+
 }
 
 function addNewScheduleItem(){
@@ -133,6 +143,7 @@ function setScheduleItemValue(position:number,field:string,value:string){
                             <Select 
                                 name="week_day" 
                                 label="Dia da semana"
+                                value={scheduleItem.week_day}
                                 onChange={e => setScheduleItemValue(index,'week_day',e.target.value)} 
                                 options={[
                                     {value:'0', label:"Domingo"},
@@ -144,8 +155,21 @@ function setScheduleItemValue(position:number,field:string,value:string){
                                     {value:'6', label:"Sabado"},
                             ]}/>
 
-                            <Input name='from' label='Das' type='time'></Input>
-                            <Input name='to' label='Até' type='time'></Input>
+                            <Input 
+                                name='from' 
+                                label='Das' 
+                                type='time'
+                                value={scheduleItem.from}
+                                onChange={e => setScheduleItemValue(index,'from',e.target.value)}> 
+                            </Input>
+
+                            <Input 
+                                name='to' 
+                                label='Até' 
+                                type='time'
+                                value={scheduleItem.to}
+                                onChange={e => setScheduleItemValue(index,'to',e.target.value)}>      
+                            </Input>    
 
                                 
                     </div>)
